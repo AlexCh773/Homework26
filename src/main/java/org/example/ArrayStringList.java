@@ -2,7 +2,7 @@ package org.example;
 
 import java.util.Arrays;
 
-public class ArrayStringList implements StringList {
+public class ArrayStringList implements CustomList<String> {
     private int currentNumberOfItems;
     private String[] stringArray;
 
@@ -14,9 +14,7 @@ public class ArrayStringList implements StringList {
 
     @Override
     public String add(String item) {
-        if (item == null) {
-            throw new ArrayStringListNullPointerException();
-        }
+        checkParameterForNull(item);
         if (stringArray.length == currentNumberOfItems) {
             increaseArraySize();
         }
@@ -27,9 +25,7 @@ public class ArrayStringList implements StringList {
 
     @Override
     public String add(int index, String item) {
-        if (item == null) {
-            throw new ArrayStringListNullPointerException();
-        }
+        checkParameterForNull(item);
         if (stringArray.length == currentNumberOfItems) {
             increaseArraySize();
         }
@@ -54,9 +50,7 @@ public class ArrayStringList implements StringList {
 
     @Override
     public String remove(String item) {
-        if (item == null) {
-            throw new ArrayStringListNullPointerException();
-        }
+        checkParameterForNull(item);
         if (stringArray.length < 1) {
             throw new ArrayStringListElementNotFoundException();
         }
@@ -89,9 +83,7 @@ public class ArrayStringList implements StringList {
 
     @Override
     public boolean contains(String item) {
-        if (item == null) {
-            throw new ArrayStringListNullPointerException();
-        }
+        checkParameterForNull(item);
         for (int i = 0; i < currentNumberOfItems; i++) {
             if (stringArray[i].equals(item)) {
                 return true;
@@ -102,9 +94,7 @@ public class ArrayStringList implements StringList {
 
     @Override
     public int indexOf(String item) {
-        if (item == null) {
-            throw new ArrayStringListNullPointerException();
-        }
+        checkParameterForNull(item);
         for (int i = 0; i < currentNumberOfItems; i++) {
             if (stringArray[i].equals(item)) {
                 return i;
@@ -115,9 +105,7 @@ public class ArrayStringList implements StringList {
 
     @Override
     public int lastIndexOf(String item) {
-        if (item == null) {
-            throw new ArrayStringListNullPointerException();
-        }
+        checkParameterForNull(item);
         if (stringArray.length < 1) {
             return -1;
         }
@@ -138,10 +126,8 @@ public class ArrayStringList implements StringList {
     }
 
     @Override
-    public boolean equals(StringList otherList) {
-        if (otherList == null) {
-            throw new ArrayStringListNullPointerException();
-        }
+    public boolean equals(CustomList otherList) {
+        checkParameterForNull(otherList);
         return Arrays.equals(this.toArray(), otherList.toArray());
     }
 
@@ -190,5 +176,10 @@ public class ArrayStringList implements StringList {
         }
         result.append("]");
         return result.toString();
+    }
+    private static void checkParameterForNull(Object item) {
+        if (item == null) {
+            throw new ArrayStringListNullPointerException();
+        }
     }
 }
