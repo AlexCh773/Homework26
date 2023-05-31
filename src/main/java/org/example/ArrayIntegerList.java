@@ -179,20 +179,8 @@ public class ArrayIntegerList implements CustomList<Integer> {
         }
     }
 
-    private void sortInsertion() {
-        for (int i = 1; i < currentNumberOfItems; i++) {
-            int temp = integerArray[i];
-            int j = i;
-            while (j > 0 && integerArray[j - 1] >= temp) {
-                integerArray[j] = integerArray[j - 1];
-                j--;
-            }
-            integerArray[j] = temp;
-        }
-    }
-
     private int binarySearch(Integer item) {
-        sortInsertion();
+        sort();
         if (currentNumberOfItems < 1) {
             return -1;
         }
@@ -215,5 +203,37 @@ public class ArrayIntegerList implements CustomList<Integer> {
             rangeSize = finalIndex - startingIndex + 1;
         }
         return -1;
+    }
+
+    public void sort() {
+        quickSort(integerArray, 0, currentNumberOfItems - 1);
+    }
+
+    private static void quickSort(Integer[] arr, int begin, int end) {
+        if (begin < end) {
+            int partitionIndex = partition(arr, begin, end);
+
+            quickSort(arr, begin, partitionIndex - 1);
+            quickSort(arr, partitionIndex + 1, end);
+        }
+    }
+
+    private static int partition(Integer[] arr, int begin, int end) {
+        int pivot = arr[end];
+        int i = begin - 1;
+        for (int j = begin; j < end; j++) {
+            if (arr[j] <= pivot) {
+                i++;
+                swapElements(arr, i, j);
+            }
+        }
+        swapElements(arr, i + 1, end);
+        return i + 1;
+    }
+
+    private static void swapElements(Integer[] arr, int indexA, int indexB) {
+        int tmp = arr[indexA];
+        arr[indexA] = arr[indexB];
+        arr[indexB] = tmp;
     }
 }
