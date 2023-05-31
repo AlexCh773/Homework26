@@ -443,4 +443,29 @@ class ArrayIntegerListTest {
         assertThrows(ArrayIntegerListElementNotFoundException.class, ()->out.remove(item1));
 
     }
+
+    public static Stream<Arguments> provideParamsForTestSort() {
+        Integer[] expectedIntegerArray1 = {};
+        Integer[] integerArray1 = {};
+        Integer[] expectedIntegerArray2 = {item1};
+        Integer[] integerArray2 = {item1};
+        Integer[] expectedIntegerArray3 = {item6, item3, item3, item1 ,item2};
+        Integer[] integerArray3 = {item6, item3, item1, item2, item3};
+
+        return Stream.of(
+                Arguments.of(expectedIntegerArray1, integerArray1),
+                Arguments.of(expectedIntegerArray2, integerArray2),
+                Arguments.of(expectedIntegerArray3, integerArray3));
+    }
+
+    @ParameterizedTest
+    @MethodSource("provideParamsForTestSort")
+    void testSort(Integer[] expectedIntegerArray, Integer[] integerArray) {
+        for (Integer s : integerArray) {
+            out.add(s);
+        }
+        out.sort();
+        assertArrayEquals(expectedIntegerArray, out.toArray());
+    }
+
 }
